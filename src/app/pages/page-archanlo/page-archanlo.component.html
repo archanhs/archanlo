@@ -1,0 +1,21 @@
+<app-archanlo-navbar></app-archanlo-navbar>
+<div class="container mt-3">
+  <button
+    class="btn btn-outline-success mb-3"
+    type="submit"
+    (click)="pf.createTask()"
+  >
+    New Task
+  </button>
+  <div class="row">
+    <div class="col-md-4">
+      <app-card-plan #pf></app-card-plan>
+    </div>
+    <div class="col-md-4">
+      <app-card-todo></app-card-todo>
+    </div>
+    <div class="col-md-4">
+      <app-card-done></app-card-done>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,118 @@
+<div class="card">
+  <div class="card-header">Plan</div>
+  <div class="card-body">
+    <div class="card text-bg-light mb-3" *ngIf="newTask">
+      <div class="card-body p-2 pb-3">
+        <div class="close-button">
+          <button
+            type="button"
+            class="btn-close mb-2"
+            aria-label="Close"
+            (click)="newTask = false"
+          ></button>
+        </div>
+        <input
+          type="text"
+          placeholder="Title"
+          class="form-control mb-1"
+          [(ngModel)]="taskNew.title"
+        />
+        <textarea
+          class="form-control mb-3"
+          placeholder="Description"
+          id="floatingTextarea"
+          style="height: 100px"
+          [(ngModel)]="taskNew.description"
+        ></textarea>
+        <button type="button" class="btn btn-primary" (click)="onCreate()">
+          CREATE
+        </button>
+      </div>
+    </div>
+
+    <ul *ngIf="taskDelete && isDelete" class="list-group list-group-flush">
+      <li class="list-group-item">
+        Anda yakin ingin menghapus data
+        <strong>{{ taskDelete.title }}</strong>
+      </li>
+      <li class="list-group-item">
+        <div class="mb-2 mt-2" *ngIf="taskDelete.id">
+          <button
+            class="btn btn-primary me-1"
+            (click)="onDelete(taskDelete.id)"
+          >
+            Yes
+          </button>
+          <button class="btn btn-danger me-1" (click)="isDelete = false">
+            No
+          </button>
+        </div>
+      </li>
+    </ul>
+    <div
+      class="card text-bg-light mb-3"
+      *ngFor="let row of tasks; let i = index"
+    >
+      <div class="card-body p-2 pb-3">
+        <div class="close-button">
+          <button
+            type="button"
+            class="btn-close mb-2"
+            aria-label="Close"
+            (click)="confirmDelete(row)"
+          ></button>
+        </div>
+        <input
+          type="text"
+          placeholder="Title"
+          class="form-control mb-1"
+          [(ngModel)]="row.title"
+          (ngModelChange)="updatedList[i] = true"
+        />
+        <textarea
+          class="form-control mb-3"
+          placeholder="Description"
+          id="floatingTextarea"
+          style="height: 100px"
+          [(ngModel)]="row.description"
+          (ngModelChange)="updatedList[i] = true"
+        ></textarea>
+        <div class="d-flex justify-content-between">
+          <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
+            <button
+              type="button"
+              class="btn btn-outline-primary me-2"
+              id="dropdownManual"
+              ngbDropdownAnchor
+              (focus)="myDrop.open()"
+            >
+              MOVE
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownManual">
+              <button
+                ngbDropdownItem
+                (click)="row.status = statusTodo; onUpdate(row.id, row)"
+              >
+                TODO
+              </button>
+              <button
+                ngbDropdownItem
+                (click)="row.status = statusDone; onUpdate(row.id, row)"
+              >
+                DONE
+              </button>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="btn btn-primary"
+            *ngIf="updatedList[i]"
+            (click)="onUpdate(row.id, row); updatedList[i] = false"
+          >
+            SAVE
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
